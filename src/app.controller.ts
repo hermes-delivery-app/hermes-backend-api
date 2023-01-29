@@ -12,13 +12,12 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get()
-  @Header('Content-Type', 'application/json')
-  @Header('Content-Disposition', 'attachment; filename="res.json"')
-  getStaticFile(): StreamableFile {
-    const file = createReadStream(join(process.cwd(), 'res.json'));
-    return new StreamableFile(file);
-  }  
-
+  // @Get()
+  // @Header('Content-Type', 'application/json')
+  // @Header('Content-Disposition', 'attachment; filename="res.json"')
+  // getStaticFile(): StreamableFile {
+  //   const file = createReadStream(join(process.cwd(), 'res.json'));
+  //   return new StreamableFile(file);
+  // }  
 
 }

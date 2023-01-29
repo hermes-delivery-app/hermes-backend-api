@@ -1,0 +1,31 @@
+GET http://localhost:3000/categories
+
+###
+
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "name"       : "Пицца",
+    "isActive"   : "true",
+}
+
+###
+
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "name"       : "Бургеры",
+    "isActive"   : "true",
+}
+
+###
+
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "name"       : "Суши",
+    "isActive"   : "true",
+}

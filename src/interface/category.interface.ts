@@ -6,3 +6,5 @@ export interface ICategory extends Document{
     readonly restaurant_id: string;
     readonly isActive: boolean;
 }
+
+// export const ICATEGORY = Symbol("ICategory");
