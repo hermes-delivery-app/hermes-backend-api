@@ -11,17 +11,12 @@ import { CategorySchema } from 'src/schemas/category.schema';
             {
                 name: 'Category',
                 schema: CategorySchema,
+                collection: 'categories',
             },
         ]),
     ],
     controllers: [CategoryController],
     providers: [CategoryService],
-    // providers: [
-    //     {
-    //       provide: 'ICategory',
-    //       useClass: CategoryService
-    //     }
-    //   ],
     exports: [CategoryService],
 })
 export class CategoryModule { }

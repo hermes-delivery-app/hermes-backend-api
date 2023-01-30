@@ -6,26 +6,8 @@ POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
-    "name"       : "Пицца",
-    "isActive"   : "true",
+    "name":"Бургеры",
+    "isActive":"true"
 }
 
-###
 
-POST http://localhost:3000/categories
-Content-Type: application/json
-
-{
-    "name"       : "Бургеры",
-    "isActive"   : "true",
-}
-
-###
-
-POST http://localhost:3000/categories
-Content-Type: application/json
-
-{
-    "name"       : "Суши",
-    "isActive"   : "true",
-}
