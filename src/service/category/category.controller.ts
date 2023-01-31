@@ -39,6 +39,19 @@ export class CategoryController {
     }
   }
 
+  @Get('/archive')
+  async getArchived(@Res() response) {
+    try {
+      const data = await this.categoryService.getArchived();
+
+      return response.status(HttpStatus.OK).json({
+        categories: data
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @Get('/:id')
   async getOne(@Res() response, @Param('id') id: string) {
     try {
@@ -78,5 +91,6 @@ export class CategoryController {
       return response.status(err.status).json(err.response);
     }
   }
+
 
 }

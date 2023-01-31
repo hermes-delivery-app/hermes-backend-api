@@ -11,11 +11,13 @@ export class CreateCategoryDto {
     @IsString()
     @IsOptional()
     // @IsNotEmpty()
+    @ApiProperty()
     readonly parent_id: string;
 
     @IsString()
     @IsOptional()
     // @IsNotEmpty()
+    // @ApiProperty()
     readonly restaurant_id: string;
 
     @IsBoolean()

@@ -27,7 +27,15 @@ export class CategoryService {
   }
 
   async getAll(): Promise<ICategory[]> {
-    const data = await this.categoryModel.find();
+    const data = await this.categoryModel.find({isActive: true});
+    if (!data || data.length == 0) {
+      throw new NotFoundException('Categories data not found!');
+    }
+    return data;
+  }
+
+  async getArchived(): Promise<ICategory[]> {
+    const data = await this.categoryModel.find({isActive: false});
     if (!data || data.length == 0) {
       throw new NotFoundException('Categories data not found!');
     }
