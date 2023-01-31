@@ -6,12 +6,12 @@ import { CategoryService } from 'src/service/category/category.service';
 @Controller('categories')
 export class CategoryController {
 
-  constructor(private readonly categorySevice: CategoryService) { }
+  constructor(private readonly categoryService: CategoryService) { }
 
   @Post()
   async create(@Res() response, @Body() createCategoryDto: CreateCategoryDto) {
     try {
-      const newCategory = await this.categorySevice.create(createCategoryDto);
+      const newCategory = await this.categoryService.create(createCategoryDto);
 
       return response.status(HttpStatus.CREATED).json({
         message: 'Category has been created successfully',
@@ -29,7 +29,7 @@ export class CategoryController {
   @Get()
   async getAll(@Res() response) {
     try {
-      const data = await this.categorySevice.getAll();
+      const data = await this.categoryService.getAll();
 
       return response.status(HttpStatus.OK).json({
         categories: data
@@ -42,10 +42,37 @@ export class CategoryController {
   @Get('/:id')
   async getOne(@Res() response, @Param('id') id: string) {
     try {
-      const existing = await this.categorySevice.getOne(id);
+      const existing = await this.categoryService.getOne(id);
 
       return response.status(HttpStatus.OK).json({
         category: existing
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Put('/:id')
+  async update(@Res() response, @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto) {
+    try {
+      const existing = await this.categoryService.update(id, updateCategoryDto);
+      return response.status(HttpStatus.OK).json({
+        message: 'Category has been successfully updated',
+        existingCategory: existing,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Delete('/:id')
+  async delete(@Res() response, @Param('id') id: string) {
+    try {
+      const deleted = await this.categoryService.softDelete(id);
+      return response.status(HttpStatus.OK).json({
+        message: 'Category deleted successfully',
+        deletedStudent: deleted,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);

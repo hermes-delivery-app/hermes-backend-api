@@ -12,11 +12,11 @@ export class Category {
    @Prop()
    name: string;
 
-   // @Prop()
-   // parent_id: string;
+   @Prop()
+   parent_id: string;
 
-   // @Prop()
-   // restaurant_id: string;
+   @Prop()
+   restaurant_id: string;
 
    @Prop()
    isActive: boolean;

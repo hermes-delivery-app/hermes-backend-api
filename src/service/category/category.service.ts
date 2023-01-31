@@ -10,7 +10,7 @@ import { UpdateCategoryDto } from 'src/dto/update-category.dto';
 @Injectable()
 export class CategoryService {
 
-  constructor(@InjectModel('Category') 
+  constructor(@InjectModel('Category')
   private categoryModel: Model<ICategory>) { }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<ICategory> {
@@ -42,5 +42,14 @@ export class CategoryService {
     return existing;
   }
 
+  async softDelete(id: string): Promise<ICategory> {
+    const deleted = await this.categoryModel.updateOne({ "_id": id }, { "$set": { "isActive": false } });
+
+    const existing = await this.categoryModel.findById(id).exec();
+    if (!existing) {
+      throw new NotFoundException(`Category #${id} not found`);
+    }
+    return existing;
+  }
 
 }
