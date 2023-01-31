@@ -53,6 +53,8 @@ export class CategoryService {
   async softDelete(id: string): Promise<ICategory> {
     const deleted = await this.categoryModel.updateOne({ "_id": id }, { "$set": { "isActive": false } });
 
+    const children = await this.categoryModel.findOneAndUpdate({"parent_id":id}, { "$set": { "isActive": false } });
+
     const existing = await this.categoryModel.findById(id).exec();
     if (!existing) {
       throw new NotFoundException(`Category #${id} not found`);

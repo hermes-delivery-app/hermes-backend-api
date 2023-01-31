@@ -85,7 +85,7 @@ export class CategoryController {
       const deleted = await this.categoryService.softDelete(id);
       return response.status(HttpStatus.OK).json({
         message: 'Category deleted successfully',
-        deletedStudent: deleted,
+        deleteCategory: deleted,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
