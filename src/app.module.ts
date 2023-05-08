@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService  } from '@nestjs/config';
+// import * as Joi from '@hapi/joi';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -33,6 +34,15 @@ import { AuthModule } from './auth/auth.module';
         uri: 'mongodb+srv://hermes:9zxK74V3sEyn@cluster0.vwv4lsa.mongodb.net/hermes',
       }),
     }),
+
+    // ConfigModule.forRoot({
+    //   validationSchema: Joi.object({
+    //     TWILIO_ACCOUNT_SID: Joi.string().required(),
+    //     TWILIO_AUTH_TOKEN: Joi.string().required(),
+    //     TWILIO_VERIFICATION_SERVICE_SID: Joi.string().required()
+    //     // ...
+    //   })
+    // }),
 
   ],
 

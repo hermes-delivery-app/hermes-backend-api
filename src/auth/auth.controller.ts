@@ -9,7 +9,10 @@ import { AuthDto } from './dto/auth.dto';
 
 import { CreateUserDto } from 'src/dto/create-user.dto';
 
+import { ApiTags } from '@nestjs/swagger';
+
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -17,6 +20,14 @@ export class AuthController {
   signup(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
   }
+
+  // @Post('verificate')
+  //   verificatePhoneNumber(@Body() data: PhoneNumberDto) {
+  //   if (request.user.isPhoneNumberConfirmed) {
+  //     throw new BadRequestException('Phone number already confirmed');
+  //   }
+  //   return this.authService.verificatePhoneNumber(data);
+  // }
 
   @Post('signin')
   signin(@Body() data: AuthDto) {

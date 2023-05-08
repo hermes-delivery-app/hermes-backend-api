@@ -46,4 +46,8 @@ export class UsersService {
     return existing;
   }
 
+  async confirmPhoneNumber(id: string): Promise<void> {
+    const updated = await this.userModel.updateOne({ "_id": id }, { "$set": { "isPhoneNumberConfirmed": true } });
+  }
+
 }

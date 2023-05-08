@@ -110,4 +110,24 @@ export class AuthService {
   }
 
 
+  // async confirmPhoneNumber(userId: string, phoneNumber: string, verificationCode: string) {
+  //   const accountSid = this.configService.get('TWILIO_ACCOUNT_SID');
+  //   const authToken = this.configService.get('TWILIO_AUTH_TOKEN');
+ 
+  //   this.twilioClient = new Twilio(accountSid, authToken);
+
+  //   const serviceSid = this.configService.get('TWILIO_VERIFICATION_SERVICE_SID');
+ 
+  //   const result = await this.twilioClient.verify.services(serviceSid)
+  //     .verificationChecks
+  //     .create({to: phoneNumber, code: verificationCode})
+ 
+  //   if (!result.valid || result.status !== 'approved') {
+  //     throw new BadRequestException('Code is incorrect');
+  //   }
+ 
+  //   await this.usersService.confirmPhoneNumber(userId)
+  // }
+
+
 }
