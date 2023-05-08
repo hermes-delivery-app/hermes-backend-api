@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-// import { ConfigModule, ConfigService  } from '@nestjs/config';
+import { ConfigModule, ConfigService  } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,10 +8,15 @@ import { AppService } from './app.service';
 import { CategoryModule } from './service/category/category.module';
 import { CategorySchema } from './schemas/category.schema';
 
+import { UsersModule } from './service/users/users.module';
+import { AuthModule } from './auth/auth.module';
+
 
 @Module({
   imports: [
     CategoryModule,
+    UsersModule,
+    AuthModule,
     
     // MongooseModule.forRootAsync({
     //   imports: [ConfigModule],
@@ -20,6 +25,8 @@ import { CategorySchema } from './schemas/category.schema';
     //     uri: config.get<string>('MONGO_URI'), // Loaded from .ENV
     //   })
     // })
+
+    ConfigModule.forRoot({ isGlobal: true }),
 
     MongooseModule.forRootAsync({
       useFactory: () => ({

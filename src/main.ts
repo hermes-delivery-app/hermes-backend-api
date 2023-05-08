@@ -7,12 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: false }))
 
   const config = new DocumentBuilder().setTitle('Demo GET/POST')
-  .setDescription("Demo Categories Docs")
+  .setDescription("Demo API Docs")
   .setVersion('v1')
-  .addTag('categories')
   .build();
 
   const document = SwaggerModule.createDocument(app, config);
