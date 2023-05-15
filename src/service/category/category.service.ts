@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model } from "mongoose";
-import { InjectModel } from '@nestjs/mongoose';
+import { Model }                         from "mongoose";
+import { InjectModel }                   from '@nestjs/mongoose';
 
-import { ICategory } from 'src/interface/category.interface';
+import { ICategory }         from 'src/interface/category.interface';
 import { CreateCategoryDto } from 'src/dto/create-category.dto';
 import { UpdateCategoryDto } from 'src/dto/update-category.dto';
 

@@ -1,29 +1,30 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
-import { CreateCategoryDto } from 'src/dto/create-category.dto';
-import { UpdateCategoryDto } from 'src/dto/update-category.dto';
-import { CategoryService } from 'src/service/category/category.service';
+
+import { CreateItemDto } from 'src/dto/create-item.dto';
+import { UpdateItemDto } from 'src/dto/update-item.dto';
+import { ItemsService }  from 'src/service/items/items.service';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@Controller('categories')
-@ApiTags('categories')
-export class CategoryController {
+@Controller('items')
+@ApiTags('items')
+export class ItemsController {
 
-  constructor(private readonly categoryService: CategoryService) { }
+  constructor(private readonly itemsService: ItemsService) { }
   
   @Post()
-  async create(@Res() response, @Body() createCategoryDto: CreateCategoryDto) {
+  async create(@Res() response, @Body() createItemDto: CreateItemDto) {
     try {
-      const newCategory = await this.categoryService.create(createCategoryDto);
+      const newItem = await this.itemsService.create(createItemDto);
 
       return response.status(HttpStatus.CREATED).json({
-        message: 'Category has been created successfully',
-        newCategory: newCategory
+        message: 'Item has been created successfully',
+        newItem: newItem
       });
     } catch (err) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
-        message: 'Error: Category not created!',
+        message: 'Error: Item not created!',
         error: 'Bad Request'
       });
     }
@@ -32,10 +33,10 @@ export class CategoryController {
   @Get()
   async getAll(@Res() response) {
     try {
-      const data = await this.categoryService.getAll();
+      const data = await this.itemsService.getAll();
 
       return response.status(HttpStatus.OK).json({
-        categories: data
+        items: data
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
@@ -45,10 +46,10 @@ export class CategoryController {
   @Get('/archive')
   async getArchived(@Res() response) {
     try {
-      const data = await this.categoryService.getArchived();
+      const data = await this.itemsService.getArchived();
 
       return response.status(HttpStatus.OK).json({
-        categories: data
+        items: data
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
@@ -58,10 +59,10 @@ export class CategoryController {
   @Get('/:id')
   async getOne(@Res() response, @Param('id') id: string) {
     try {
-      const existing = await this.categoryService.getOne(id);
+      const existing = await this.itemsService.getOne(id);
 
       return response.status(HttpStatus.OK).json({
-        category: existing
+        item: existing
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
@@ -70,12 +71,12 @@ export class CategoryController {
 
   @Put('/:id')
   async update(@Res() response, @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto) {
+    @Body() updateItemDto: UpdateItemDto) {
     try {
-      const existing = await this.categoryService.update(id, updateCategoryDto);
+      const existing = await this.itemsService.update(id, updateItemDto);
       return response.status(HttpStatus.OK).json({
-        message: 'Category has been successfully updated',
-        existingCategory: existing,
+        message: 'Item has been successfully updated',
+        existingItem: existing,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
@@ -85,10 +86,10 @@ export class CategoryController {
   @Delete('/:id')
   async delete(@Res() response, @Param('id') id: string) {
     try {
-      const deleted = await this.categoryService.softDelete(id);
+      const deleted = await this.itemsService.softDelete(id);
       return response.status(HttpStatus.OK).json({
-        message: 'Category deleted successfully',
-        deleteCategory: deleted,
+        message: 'Item deleted successfully',
+        deleteItem: deleted,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);

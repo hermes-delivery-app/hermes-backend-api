@@ -1,23 +1,26 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { Module }                       from '@nestjs/common';
+import { MongooseModule }               from '@nestjs/mongoose';
 import { ConfigModule, ConfigService  } from '@nestjs/config';
-// import * as Joi from '@hapi/joi';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController }  from './app.controller';
+import { AppService }     from './app.service';
 
 import { CategoryModule } from './service/category/category.module';
-import { CategorySchema } from './schemas/category.schema';
+import { ItemsModule }    from './service/items/items.module';
+import { CartModule }     from './service/cart/cart.module';
+import { ShopModule }     from './service/shop/shop.module';
 
-import { UsersModule } from './service/users/users.module';
-import { AuthModule } from './auth/auth.module';
-
+import { UsersModule }    from './service/users/users.module';
+import { AuthModule }     from './auth/auth.module';
 
 @Module({
   imports: [
     CategoryModule,
     UsersModule,
     AuthModule,
+    ShopModule,
+    ItemsModule,
+    CartModule,
     
     // MongooseModule.forRootAsync({
     //   imports: [ConfigModule],
@@ -35,19 +38,10 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
 
-    // ConfigModule.forRoot({
-    //   validationSchema: Joi.object({
-    //     TWILIO_ACCOUNT_SID: Joi.string().required(),
-    //     TWILIO_AUTH_TOKEN: Joi.string().required(),
-    //     TWILIO_VERIFICATION_SERVICE_SID: Joi.string().required()
-    //     // ...
-    //   })
-    // }),
-
   ],
 
   controllers: [AppController],
-  providers: [AppService],
+  providers:   [AppService],
 })
 
 export class AppModule {}

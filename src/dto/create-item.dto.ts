@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
-export class CreateCategoryDto {
+export class CreateItemDto {
     @IsNotEmpty()
     @IsString()
     @MaxLength(60)
@@ -10,16 +10,23 @@ export class CreateCategoryDto {
 
     @IsOptional()
     @IsString()
-    // @IsNotEmpty()
+    // @MaxLength(60)
     @ApiProperty()
-    readonly parent_id: string;
-
+    readonly description: string;
 
     @IsOptional()
     @IsString()
-    // @IsNotEmpty()
+    // @MaxLength(60)
     @ApiProperty()
-    readonly shop_id: string;
+    readonly image: string;
+
+    @ApiProperty()
+    readonly price: number;
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
+    readonly category_id: string;
 
     @IsBoolean()
     @ApiProperty()

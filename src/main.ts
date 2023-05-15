@@ -13,6 +13,18 @@ async function bootstrap() {
   const config = new DocumentBuilder().setTitle('Demo GET/POST')
   .setDescription("Demo API Docs")
   .setVersion('v1')
+  .addBearerAuth(
+    {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: 'JWT',
+      description: 'Enter JWT token',
+      in: 'header',
+    },
+    'JWT-auth', // This name here is important for matching up with @ApiBearerAuth() in your controller!
+  )
+  .addSecurityRequirements('JWT-auth')
   .build();
 
   const document = SwaggerModule.createDocument(app, config);

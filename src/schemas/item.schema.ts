@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { v4 as uuidv4 }                from 'uuid';
 
 @Schema()
-export class Category {
+export class Item {
 
    @Prop({ type: String, default: function genUUID() {
       return uuidv4()
@@ -13,12 +13,21 @@ export class Category {
    name: string;
 
    @Prop()
-   parent_id: string;
+   description: string;
 
    @Prop()
-   shop_id: string;
+   image: string;
+
+   @Prop()
+   price: number;
+
+   @Prop()
+   ammount: number;
+
+   @Prop()
+   category_id: string;
 
    @Prop()
    isActive: boolean;
 }
-export const CategorySchema = SchemaFactory.createForClass(Category);
+export const ItemSchema = SchemaFactory.createForClass(Item);
