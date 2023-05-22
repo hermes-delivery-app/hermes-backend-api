@@ -6,7 +6,7 @@ export interface ItemDto {
 }
 
 export interface ICart extends Document{
-    // readonly user_id  : string;
+    readonly user_id  : string;
     readonly shop_id  : string;
     readonly items    : ItemDto;
     readonly total    : number;

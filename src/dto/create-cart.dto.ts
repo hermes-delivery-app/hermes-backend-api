@@ -13,15 +13,32 @@ export class AddItemDto {
     @Min(1)
     @ApiProperty()
      ammount: number;
+
+     @IsNumber()
+     @ApiProperty()
+     price : number;
+}
+
+@ApiExtraModels()
+export class RemoveItemDto {
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
+     item_id: string;
+     
+    @IsNumber()
+    @Min(1)
+    @ApiProperty()
+     ammount: number;
 }
 
 export class CreateCartDto {
-    // @IsNotEmpty()
-    // @IsString()
-    // @ApiProperty()
-    // readonly user_id: string;
+    @IsOptional()
+    @IsString()
+    @ApiProperty()
+    readonly user_id: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     @ApiProperty()
     readonly shop_id: string;

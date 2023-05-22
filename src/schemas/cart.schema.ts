@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
+import { SchemaTypes } from "mongoose";
 import { v4 as uuidv4 }                from 'uuid';
 
-// Nested Schema
+// // Nested Schema
 @Schema({_id:false})
 export class Items {
     @Prop()
@@ -9,8 +10,15 @@ export class Items {
 
     @Prop()
     ammount: number;
+
+    @Prop()
+    price: number;
+
+    @Prop()
+    total: number; 
 }
 export const ItemsSchema = SchemaFactory.createForClass(Items);
+export type ItemDocument = Items & Document;
 
 @Schema()
 export class Cart {
@@ -20,8 +28,8 @@ export class Cart {
   }})
   _id: string;
 
-//    @Prop()
-//    user_id: string;
+   @Prop()
+   user_id: string;
 
    @Prop()
    shop_id: string;
@@ -34,3 +42,4 @@ export class Cart {
 }
 export const CartSchema = SchemaFactory.createForClass(Cart);
 export type CartDocument = Cart & Document;
+
