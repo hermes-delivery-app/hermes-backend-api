@@ -51,10 +51,24 @@ export class CartService {
     return newCart.save();
   }
 
-  async getAll(): Promise<CartDocument[]> {
-    const data = await this.cartModel.find();
+  // async getAll(): Promise<CartDocument[]> {
+  //   const data = await this.cartModel.find();
+  //   if (!data || data.length == 0) {
+  //     throw new NotFoundException('Carts data not found!');
+  //   }
+  //   return data;
+  // }
+
+  async getAll(filter: string, id : string): Promise<CartDocument[]> {
+    let data;
+    switch(filter){
+      case 'shop' : data = await this.cartModel.find({ shop_id: id });
+      break;
+      case 'user' : data = await this.cartModel.find({ user_id: id });
+    }
+
     if (!data || data.length == 0) {
-      throw new NotFoundException('Carts data not found!');
+      throw new NotFoundException('Data not found!');
     }
     return data;
   }
@@ -87,16 +101,17 @@ export class CartService {
         item.ammount = item.ammount + ammount;
         item.total = item.ammount * item.price;
 
-        existing.total = 0;
-        existing.items.forEach(item => {existing.total += item.total});
-
         existing.items[index] = item;
+
+        existing.total = 0;
+        existing.items.forEach(item => {existing.total += item.ammount * item.price});
         return existing.save();
       } 
       else {
        existing.items.push({...addItemDto, total});
 
-       existing.items.forEach(item => {existing.total += item.total});
+       existing.total = 0;
+       existing.items.forEach(item => {existing.total += item.ammount * item.price});
 
         return existing.save();
       }

@@ -10,17 +10,17 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(7)
-    @ApiProperty()
-    readonly password: string;
-
-    @IsString()
-    @IsNotEmpty()
     @Matches(/^\+?3?8?(0\d{2}\d{3}\d{2}\d{2})$/)
     @ApiProperty()
     readonly phoneNumber: string;
 
-    readonly isPhoneNumberConfirmed: boolean;
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(7)
+    @ApiProperty()
+    readonly password: string;
+
+   // readonly isPhoneNumberConfirmed: boolean;
 
     readonly refreshToken: string;
 }

@@ -55,6 +55,19 @@ export class UsersController {
     }
   }
 
+  @Get('/phone/:phoneNumber')
+  async getByPhoneNumber(@Res() response, @Param('phoneNumber') phoneNumber: string) {
+    try {
+      const existing = await this.usersService.getOneByPhoneNumber(phoneNumber);
+
+      return response.status(HttpStatus.OK).json({
+        user: existing
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @Put('/:id')
   async update(@Res() response, @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto) {

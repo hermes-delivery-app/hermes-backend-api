@@ -25,10 +25,36 @@ export class CartController {
     }
   }
 
-@Get()
-async getAll(@Res() response) {
+// @Get()
+// async getAll(@Res() response) {
+//   try {
+//     const data = await this.cartService.getAll();
+
+//     return response.status(HttpStatus.OK).json({
+//       carts: data
+//     });
+//   } catch (err) {
+//     return response.status(err.status).json(err.response);
+//   }
+// }
+
+@Get('/user/:userId')
+async getByUser(@Res() response, @Param('userId') id: string) {
   try {
-    const data = await this.cartService.getAll();
+    const data = await this.cartService.getAll('user',id);
+
+    return response.status(HttpStatus.OK).json({
+      carts: data
+    });
+  } catch (err) {
+    return response.status(err.status).json(err.response);
+  }
+}
+
+@Get('/shop/:shopId')
+async getByShop(@Res() response, @Param('shopId') id: string) {
+  try {
+    const data = await this.cartService.getAll('shop',id);
 
     return response.status(HttpStatus.OK).json({
       carts: data

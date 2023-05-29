@@ -13,13 +13,13 @@ _id: string;
   name: string;
 
   @Prop()
-  password: string;
-
-  @Prop()
   phoneNumber: string;
 
-  @Prop({default:false})
-  isPhoneNumberConfirmed: boolean;
+  @Prop()
+  password: string;
+
+  // @Prop({default:false})
+  // isPhoneNumberConfirmed: boolean;
 
  @Prop()
   refreshToken: string;
