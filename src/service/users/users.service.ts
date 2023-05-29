@@ -43,6 +43,14 @@ export class UsersService {
 
   async getOneByPhoneNumber(phoneNumber: string): Promise<IUser> {
     const existing = await this.userModel.findOne({phoneNumber}).exec();
+    // if (!existing) {
+    //   throw new NotFoundException(`User with phone number ${phoneNumber} not found`);
+    // }
+    return existing;
+  }
+
+  async findByPhoneNumber(phoneNumber: string): Promise<IUser> {
+    const existing = await this.userModel.findOne({phoneNumber}).exec();
     if (!existing) {
       throw new NotFoundException(`User with phone number ${phoneNumber} not found`);
     }

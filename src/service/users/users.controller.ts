@@ -51,14 +51,18 @@ export class UsersController {
         user: existing
       });
     } catch (err) {
-      return response.status(err.status).json(err.response);
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error: User not found!',
+        error: 'Bad Request'
+      });
     }
   }
 
   @Get('/phone/:phoneNumber')
   async getByPhoneNumber(@Res() response, @Param('phoneNumber') phoneNumber: string) {
     try {
-      const existing = await this.usersService.getOneByPhoneNumber(phoneNumber);
+      const existing = await this.usersService.findByPhoneNumber(phoneNumber);
 
       return response.status(HttpStatus.OK).json({
         user: existing
