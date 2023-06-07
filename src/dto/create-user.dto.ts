@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNotEmpty, MinLength, IsString, MaxLength, Matches} from "class-validator";
+import { IsBoolean, IsNotEmpty, MinLength, IsString, MaxLength, Matches, ValidateNested} from "class-validator";
+import { CreateExistanceDto } from "./create-existance.dto";
+import { Type } from "class-transformer";
 
 export class CreateUserDto {
     @IsString()
@@ -23,4 +25,12 @@ export class CreateUserDto {
    // readonly isPhoneNumberConfirmed: boolean;
 
     readonly refreshToken: string;
+
+    @ApiProperty({
+        type: CreateExistanceDto,
+        isArray: false,
+      })  
+    @ValidateNested({ each: true })
+    @Type(() => CreateExistanceDto)
+      readonly existance: CreateExistanceDto; 
 }

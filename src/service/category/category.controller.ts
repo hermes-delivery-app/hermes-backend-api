@@ -55,6 +55,19 @@ export class CategoryController {
     }
   }
 
+  @Get('/shop/:shopId')
+  async getByShop(@Res() response, @Param('shopId') id: string) {
+    try {
+      const data = await this.categoryService.findByShop(id);
+
+      return response.status(HttpStatus.OK).json({
+        categories: data
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @Get('/:id')
   async getOne(@Res() response, @Param('id') id: string) {
     try {

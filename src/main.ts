@@ -10,7 +10,7 @@ async function bootstrap() {
   // app.useGlobalPipes(new ValidationPipe());
   app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: false }))
 
-  const config = new DocumentBuilder().setTitle('Demo GET/POST')
+  const config = new DocumentBuilder().setTitle('Demo CRUD')
   .setDescription("Demo API Docs")
   .setVersion('v1')
   .addBearerAuth(

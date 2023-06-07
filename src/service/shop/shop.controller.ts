@@ -82,24 +82,11 @@ export class ShopController {
       const deleted = await this.shopService.softDelete(id);
       return response.status(HttpStatus.OK).json({
         message: 'Shop deleted successfully',
-        deleteCategory: deleted,
+        deleteShop: deleted,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);
     }
   }
-
-  // @Get('/:id/cart')
-  // async getCart(@Res() response, @Param('id') id: string) {
-  //   try {
-  //     const existing = await this.shopService.getCart(id);
-
-  //     return response.status(HttpStatus.OK).json({
-  //       cart: existing
-  //     });
-  //   } catch (err) {
-  //     return response.status(err.status).json(err.response);
-  //   }
-  // }
-
+  
 }

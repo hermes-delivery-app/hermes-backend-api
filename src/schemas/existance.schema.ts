@@ -4,13 +4,13 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 @Schema({_id: false})
 export class Existance {
     
-    @Prop()
+    @Prop({default: false})
     isArchived : boolean;
     
     @Prop()
     date: Date;
 
-    @Prop()
+    @Prop({default: ""})
     cause: String;
 }
 export const ExistanceSchema = SchemaFactory.createForClass(Existance);

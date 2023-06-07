@@ -3,15 +3,21 @@ import { Model }                         from "mongoose";
 import { InjectModel }                   from '@nestjs/mongoose';
 
 import { ICategory }         from 'src/interface/category.interface';
+import { IShop }             from 'src/interface/shop.interface';
+
 import { CreateCategoryDto } from 'src/dto/create-category.dto';
 import { UpdateCategoryDto } from 'src/dto/update-category.dto';
-
 
 @Injectable()
 export class CategoryService {
 
-  constructor(@InjectModel('Category')
-  private categoryModel: Model<ICategory>) { }
+  constructor(
+  @InjectModel('Category')
+  private categoryModel: Model<ICategory>,
+
+  @InjectModel('Shop')
+  private shopModel: Model<IShop>
+  ) { }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<ICategory> {
     const newCategory = await new this.categoryModel(createCategoryDto);
@@ -36,6 +42,20 @@ export class CategoryService {
 
   async getArchived(): Promise<ICategory[]> {
     const data = await this.categoryModel.find({isActive: false});
+    if (!data || data.length == 0) {
+      throw new NotFoundException('Categories data not found!');
+    }
+    return data;
+  }
+
+  async findByShop(id: string): Promise<ICategory[]> {
+    const shop = await this.shopModel.findById(id).exec();
+    if (!shop) {
+      throw new NotFoundException('Shop {shop_id} not found!');
+    }
+
+    const data = await this.categoryModel.find({shop_id: id,isActive:true});
+
     if (!data || data.length == 0) {
       throw new NotFoundException('Categories data not found!');
     }

@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
-import { UsersService } from 'src/service/users/users.service';
+import { UsersService }  from 'src/service/users/users.service';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
 @ApiTags('users')
@@ -33,6 +34,20 @@ export class UsersController {
   async getAll(@Res() response) {
     try {
       const data = await this.usersService.getAll();
+
+      return response.status(HttpStatus.OK).json({
+        users: data
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @ApiOperation({description: "Вывод (удаленных) пользователей из архива"})
+  @Get('/archive')
+  async getArchived(@Res() response) {
+    try {
+      const data = await this.usersService.getArchived();
 
       return response.status(HttpStatus.OK).json({
         users: data
@@ -80,6 +95,20 @@ export class UsersController {
       return response.status(HttpStatus.OK).json({
         message: 'User has been successfully updated',
         existingUser: existing,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @ApiOperation({description: "Удаление пользователя - перенос в архив"})
+  @Delete('/:id')
+  async delete(@Res() response, @Param('id') id: string) {
+    try {
+      const deleted = await this.usersService.softDelete(id);
+      return response.status(HttpStatus.OK).json({
+        message: 'User deleted successfully',
+        deleteUser: deleted,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);

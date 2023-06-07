@@ -2,6 +2,8 @@ import { Module }         from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ItemSchema }      from 'src/schemas/item.schema';
+import { CategorySchema }  from 'src/schemas/category.schema';
+
 import { ItemsService }    from './items.service';
 import { ItemsController } from './items.controller';
 
@@ -13,6 +15,11 @@ import { ItemsController } from './items.controller';
               schema:     ItemSchema,
               collection: 'items',
           },
+          {
+            name:       'Category',
+            schema:     CategorySchema,
+            collection: 'categories',
+        },
       ]),
   ],
   controllers: [ItemsController],

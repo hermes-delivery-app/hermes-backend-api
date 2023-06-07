@@ -41,6 +41,8 @@ export class AuthService {
     const user = await this.usersService.getOneByPhoneNumber(data.phone);
     if (!user) throw new BadRequestException('User does not exist');
 
+    if(user.existance.isArchived) throw new BadRequestException('User is deleted');
+
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');

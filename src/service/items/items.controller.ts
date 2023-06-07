@@ -56,6 +56,19 @@ export class ItemsController {
     }
   }
 
+  @Get('/category/:categoryId')
+  async getByCategory(@Res() response, @Param('categoryId') id: string) {
+    try {
+      const data = await this.itemsService.findByCategory(id);
+
+      return response.status(HttpStatus.OK).json({
+        items: data
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @Get('/:id')
   async getOne(@Res() response, @Param('id') id: string) {
     try {
