@@ -22,15 +22,18 @@ export class CreateUserDto {
     @ApiProperty()
     readonly password: string;
 
-   // readonly isPhoneNumberConfirmed: boolean;
-
     readonly refreshToken: string;
 
-    @ApiProperty({
-        type: CreateExistanceDto,
-        isArray: false,
-      })  
-    @ValidateNested({ each: true })
-    @Type(() => CreateExistanceDto)
-      readonly existance: CreateExistanceDto; 
+    @ApiProperty({default: false})
+    isArchived: boolean;
+
+   // readonly isPhoneNumberConfirmed: boolean;
+
+    // @ApiProperty({
+    //     type: CreateExistanceDto,
+    //     isArray: false,
+    //   })  
+    // @ValidateNested({ each: true })
+    // @Type(() => CreateExistanceDto)
+    //   readonly existance: CreateExistanceDto; 
 }

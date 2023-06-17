@@ -27,9 +27,12 @@ _id: string;
  @Prop()
   refreshToken: string;
 
+  @Prop({default:false})
+  isArchived: boolean;
+
    // Single example
-   @Prop({ type: ExistanceSchema })
-   existance: ExistanceDto;
+  //  @Prop({ type: ExistanceSchema })
+  //  existance: ExistanceDto;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

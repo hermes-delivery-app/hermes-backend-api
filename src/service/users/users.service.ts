@@ -27,7 +27,7 @@ export class UsersService {
 
   async getAll(): Promise<IUser[]> {
     const data = await this.userModel.find({
-      "existance.isArchived": false
+      "isArchived": false
     });
     if (!data || data.length == 0) {
       throw new NotFoundException('Users data not found!');
@@ -37,7 +37,7 @@ export class UsersService {
 
   async getArchived(): Promise<IUser[]> {
     const data = await this.userModel.find({
-      "existance.isArchived": true
+      "isArchived": true
     });
     if (!data || data.length == 0) {
       throw new NotFoundException('Users data not found!');
@@ -70,7 +70,7 @@ export class UsersService {
   }
 
   async softDelete(id: string): Promise<IUser> {
-    const deleted = await this.userModel.updateOne({ "_id": id }, { "$set": { "existance.isArchived": true } });
+    const deleted = await this.userModel.updateOne({ "_id": id }, { "$set": { "isArchived": true } });
 
     const existing = await this.userModel.findById(id).exec();
     if (!existing) {
