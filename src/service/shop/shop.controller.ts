@@ -75,6 +75,32 @@ export class ShopController {
     }
   }
 
+  @Put('/rate/positive/:shopId')
+  async updatePositiveRating(@Res() response, @Param('shopId') id: string) {
+    try {
+      const existing = await this.shopService.rateShop(true, id);
+      return response.status(HttpStatus.OK).json({
+        message: 'Shop has been successfully updated',
+        existingShop: existing,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @Put('/rate/negative/:shopId')
+  async updateNegativeRating(@Res() response, @Param('shopId') id: string) {
+    try {
+      const existing = await this.shopService.rateShop(false, id);
+      return response.status(HttpStatus.OK).json({
+        message: 'Shop has been successfully updated',
+        existingShop: existing,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @ApiOperation({description: "Удаление магазина - перенос в архив"})
   @Delete('/:id')
   async delete(@Res() response, @Param('id') id: string) {

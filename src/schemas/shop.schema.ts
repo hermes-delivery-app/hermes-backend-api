@@ -29,6 +29,9 @@ export class Rating {
     
     @Prop()
     negatives: number;
+
+    @Prop()
+    rate: number;
 }
 export const RatingSchema = SchemaFactory.createForClass(Rating);
 
@@ -49,6 +52,12 @@ export class Shop {
 
    @Prop()
    adress: string;
+
+   @Prop()
+   deliveryTime: string;
+
+   @Prop()
+   deliveryCost: number;
    
    // Array example
    @Prop({ type: [ScheduleSchema], default: [] })

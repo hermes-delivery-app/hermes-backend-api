@@ -23,7 +23,10 @@ export class ShopService {
     if (!existing) {
       throw new NotFoundException(`Shop #${id} not found`);
     }
-    return existing;
+    
+    existing.rating.rate=this.recalculateRating(existing.rating.positives, existing.rating.negatives);
+
+    return existing.save();
   }
 
   async getAll(): Promise<IShop[]> {
@@ -56,45 +59,26 @@ export class ShopService {
     return existing;
   }
 
-  // async createCart(id: string, addItemDto: AddItemDto, total : number): Promise<any> {
-  //   const newCart = await this.cartModel.create({
-  //     id,
-  //     items: [{ ...addItemDto}],
-  //     total
-  //   });
-  //   return newCart;
-  // }
+  async rateShop(positive:boolean, id: string): Promise<IShop> {
+    const existing = await this.shopModel.findById(id).exec();
+    if (!existing) {
+      throw new NotFoundException(`Shop #${id} not found`);
+    }
 
-  // async getCart(id: string): Promise<any> {
-  //   const existing = await this.cartModel.find({
-  //     "shop_id": id
-  //   });
-  //   return existing;
-  // }
+    if(positive){
+      existing.rating.positives+=1;
+    }
+    else{
+      existing.rating.negatives+=1;
+    }
 
-  // async addItem(id: string, addItemDto: AddItemDto): Promise<any> {
-  //   // const cart = await this.cartModel.findOneAndUpdate({"shop_id":id}, addItemDto, { new: true });
+    existing.rating.rate=this.recalculateRating(existing.rating.positives, existing.rating.negatives);
 
-  //   const { item_id, ammount} = addItemDto;
-  //   const total = (await this.itemsModel.findById({item_id})).price * ammount;
+    return existing.save();
+  }
 
-  //   const existing = await this.getCart(id);
-
-  //   if (existing) {
-  //     return await this.cartModel.findOneAndUpdate({"shop_id":id}, 
-  //     { $set: { "items.ammount" : ammount}}, { new: true });
-  //   }
-  //   else {
-  //     const newCart = await this.createCart(id, addItemDto, total);
-  //     return newCart;
-  //   }
-  // }
- 
-  // private calculateTotalPrice(id: string, cart: CartDocument) {
-  //   cart.total= 0;
-  //   cart.items.forEach(item => {
-  //     cart.total += (item.ammount * item.price);
-  //   })
-  // }
+   recalculateRating (positives:number, negatives:number){
+    return Math.round(100*positives/(positives+negatives));
+  }
 
 }

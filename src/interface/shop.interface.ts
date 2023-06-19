@@ -8,14 +8,17 @@ export interface ScheduleDto {
 }
 
 export interface RatingDto {
-    readonly positives : number;
-    readonly negatives : number;
+    positives : number;
+    negatives : number;
+    rate      : number;
 }
 
 export interface IShop extends Document{
     readonly name        : string;
     readonly description : string;
     readonly adress      : string;
+    readonly deliveryTime: string;
+    readonly deliveryCost: number;
     readonly schedule    : ScheduleDto;
     readonly image       : string;
     readonly rating      : RatingDto;

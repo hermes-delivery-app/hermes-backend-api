@@ -93,7 +93,7 @@ async getByShop(@Res() response, @Param('shopId') id: string) {
   }
 }
 
-@Put('remove/:id')
+@Put('/remove/:id')
   async removeItem(@Res() response, @Param('id') id: string,
   @Body() removeItemDto: RemoveItemDto) {
     try{

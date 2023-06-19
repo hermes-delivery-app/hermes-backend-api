@@ -29,6 +29,9 @@ export class CreateRatingDto{
     @IsNumber()
     @ApiProperty()
     negatives: number;
+
+    @ApiProperty()
+    rate : number;
 }
 
 export class CreateShopDto {
@@ -51,6 +54,17 @@ export class CreateShopDto {
     readonly adress: string;
 
     @IsOptional()
+    @IsString()
+    // @MaxLength(60)
+    @ApiProperty()
+    readonly deliveryTime: string;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty()
+    readonly deliveryCost: number;
+
+    @IsOptional()
     @ApiProperty({
         type: CreateScheduleDto,
         isArray: true,
@@ -61,7 +75,6 @@ export class CreateShopDto {
 
     @IsOptional()
     @IsString()
-    // @MaxLength(60)
     @ApiProperty()
     readonly image: string;
 
