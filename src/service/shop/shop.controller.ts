@@ -32,6 +32,21 @@ export class ShopController {
     }
   }
 
+  @ApiOperation({description: "Вывод магазина по Id. "})
+  @Get('/:id')
+  async getOne(@Res() response, @Param('id') id: string) {
+    try {
+      const existing = await this.shopService.getOne(id);
+
+      return response.status(HttpStatus.OK).json({
+        shop: existing
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+
   @ApiOperation({description: "Вывод всех магазинов из БД. "})
   @Get()
   async getAll(@Res() response) {

@@ -29,6 +29,15 @@ export class ShopService {
     return existing.save();
   }
 
+  async getOne(id: string): Promise<IShop> {
+    const existing = await this.shopModel.findById(id).exec();
+    
+    if (!existing) {
+      throw new NotFoundException(`Shop #${id} not found`);
+    }
+    return existing;
+  }
+
   async getAll(): Promise<IShop[]> {
     const data = await this.shopModel.find({
       "existance.isArchived": false
