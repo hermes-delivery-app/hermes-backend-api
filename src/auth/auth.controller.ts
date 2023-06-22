@@ -1,11 +1,11 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post ,Req, UseGuards } from '@nestjs/common';
-import { Request } from 'express';
+import { Request }                                                           from 'express';
 
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { AccessTokenGuard }  from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 
+import { AuthDto }     from './dto/auth.dto';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto/auth.dto';
 
 import { CreateUserDto } from 'src/dto/create-user.dto';
 
@@ -22,14 +22,6 @@ export class AuthController {
   signup(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
   }
-
-  // @Post('verificate')
-  //   verificatePhoneNumber(@Body() data: PhoneNumberDto) {
-  //   if (request.user.isPhoneNumberConfirmed) {
-  //     throw new BadRequestException('Phone number already confirmed');
-  //   }
-  //   return this.authService.verificatePhoneNumber(data);
-  // }
 
   @ApiOperation({description: "Вход. При успешном вводе данных пользователя, совпадающих с данными введенными при регистрации, выдается access token"})
   @Post('signin')
@@ -52,6 +44,4 @@ export class AuthController {
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
 }
-
-
 }

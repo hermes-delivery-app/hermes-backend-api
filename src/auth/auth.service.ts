@@ -1,12 +1,13 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
-import * as argon2 from 'argon2';
-import { JwtService } from '@nestjs/jwt';
+
+import * as argon2       from 'argon2';
+import { JwtService }    from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 import { AuthDto } from './dto/auth.dto';
 
 import { CreateUserDto } from 'src/dto/create-user.dto';
-import { UsersService } from 'src/service/users/users.service';
+import { UsersService }  from 'src/service/users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -110,26 +111,5 @@ export class AuthService {
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
-
-
-  // async confirmPhoneNumber(userId: string, phoneNumber: string, verificationCode: string) {
-  //   const accountSid = this.configService.get('TWILIO_ACCOUNT_SID');
-  //   const authToken = this.configService.get('TWILIO_AUTH_TOKEN');
- 
-  //   this.twilioClient = new Twilio(accountSid, authToken);
-
-  //   const serviceSid = this.configService.get('TWILIO_VERIFICATION_SERVICE_SID');
- 
-  //   const result = await this.twilioClient.verify.services(serviceSid)
-  //     .verificationChecks
-  //     .create({to: phoneNumber, code: verificationCode})
- 
-  //   if (!result.valid || result.status !== 'approved') {
-  //     throw new BadRequestException('Code is incorrect');
-  //   }
- 
-  //   await this.usersService.confirmPhoneNumber(userId)
-  // }
-
 
 }

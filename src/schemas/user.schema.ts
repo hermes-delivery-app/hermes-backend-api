@@ -21,9 +21,6 @@ _id: string;
   @Prop()
   password: string;
 
-  // @Prop({default:false})
-  // isPhoneNumberConfirmed: boolean;
-
  @Prop()
   refreshToken: string;
 

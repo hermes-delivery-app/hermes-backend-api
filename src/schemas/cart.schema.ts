@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import { SchemaTypes } from "mongoose";
 import { v4 as uuidv4 }                from 'uuid';
 
 // // Nested Schema

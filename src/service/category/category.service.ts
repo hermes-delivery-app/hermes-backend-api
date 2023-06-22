@@ -48,6 +48,14 @@ export class CategoryService {
     return data;
   }
 
+  async getOne(id: string): Promise<ICategory> {
+    const existing = await this.categoryModel.findById(id).exec();
+    if (!existing) {
+      throw new NotFoundException(`Category #${id} not found`);
+    }
+    return existing;
+  }
+
   async findByShop(id: string): Promise<ICategory[]> {
     const shop = await this.shopModel.findById(id).exec();
     if (!shop) {
@@ -60,14 +68,6 @@ export class CategoryService {
       throw new NotFoundException('Categories data not found!');
     }
     return data;
-  }
-
-  async getOne(id: string): Promise<ICategory> {
-    const existing = await this.categoryModel.findById(id).exec();
-    if (!existing) {
-      throw new NotFoundException(`Category #${id} not found`);
-    }
-    return existing;
   }
 
   async softDelete(id: string): Promise<ICategory> {

@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+
 import { CreateCategoryDto } from 'src/dto/create-category.dto';
 import { UpdateCategoryDto } from 'src/dto/update-category.dto';
-import { CategoryService } from 'src/service/category/category.service';
+import { CategoryService }   from 'src/service/category/category.service';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -11,6 +12,7 @@ export class CategoryController {
 
   constructor(private readonly categoryService: CategoryService) { }
   
+  @ApiOperation({description: "Створення нової категорії "})
   @Post()
   async create(@Res() response, @Body() createCategoryDto: CreateCategoryDto) {
     try {
@@ -29,6 +31,7 @@ export class CategoryController {
     }
   }
 
+  @ApiOperation({description: "Виведення всіх категорій"})
   @Get()
   async getAll(@Res() response) {
     try {
@@ -42,6 +45,7 @@ export class CategoryController {
     }
   }
 
+  @ApiOperation({description: "Виведення заархівованих категорій"})
   @Get('/archive')
   async getArchived(@Res() response) {
     try {
@@ -55,19 +59,7 @@ export class CategoryController {
     }
   }
 
-  @Get('/shop/:shopId')
-  async getByShop(@Res() response, @Param('shopId') id: string) {
-    try {
-      const data = await this.categoryService.findByShop(id);
-
-      return response.status(HttpStatus.OK).json({
-        categories: data
-      });
-    } catch (err) {
-      return response.status(err.status).json(err.response);
-    }
-  }
-
+  @ApiOperation({description: "Виведення всієї інформації однієї категорії по ID"})
   @Get('/:id')
   async getOne(@Res() response, @Param('id') id: string) {
     try {
@@ -81,11 +73,27 @@ export class CategoryController {
     }
   }
 
+  @ApiOperation({description: "Виведення всіх категорій для конкретного магазина"})
+  @Get('/shop/:shopId')
+  async getByShop(@Res() response, @Param('shopId') id: string) {
+    try {
+      const data = await this.categoryService.findByShop(id);
+
+      return response.status(HttpStatus.OK).json({
+        categories: data
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
+  @ApiOperation({description: "Оновлення однієї категорії"})
   @Put('/:id')
   async update(@Res() response, @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto) {
     try {
       const existing = await this.categoryService.update(id, updateCategoryDto);
+
       return response.status(HttpStatus.OK).json({
         message: 'Category has been successfully updated',
         existingCategory: existing,
@@ -95,10 +103,12 @@ export class CategoryController {
     }
   }
 
+  @ApiOperation({description: "Видалення (архівація) однієї категорії"})
   @Delete('/:id')
   async delete(@Res() response, @Param('id') id: string) {
     try {
       const deleted = await this.categoryService.softDelete(id);
+
       return response.status(HttpStatus.OK).json({
         message: 'Category deleted successfully',
         deleteCategory: deleted,

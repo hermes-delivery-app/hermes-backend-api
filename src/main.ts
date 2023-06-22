@@ -7,11 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
-  // app.useGlobalPipes(new ValidationPipe());
   app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: false }))
 
-  const config = new DocumentBuilder().setTitle('Demo CRUD')
-  .setDescription("Demo API Docs")
+  const config = new DocumentBuilder().setTitle('Hermes CRUD')
+  .setDescription("Hermes API Docs")
   .setVersion('v1')
   .addBearerAuth(
     {
@@ -22,7 +21,7 @@ async function bootstrap() {
       description: 'Enter JWT token',
       in: 'header',
     },
-    'JWT-auth', // This name here is important for matching up with @ApiBearerAuth() in your controller!
+    'JWT-auth', // matching with @ApiBearerAuth() in controller
   )
   .addSecurityRequirements('JWT-auth')
   .build();

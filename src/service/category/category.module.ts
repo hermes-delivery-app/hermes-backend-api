@@ -7,7 +7,6 @@ import { ShopSchema }         from 'src/schemas/shop.schema';
 import { CategoryService }    from './category.service';
 import { CategoryController } from './category.controller';
 
-
 @Module({
     imports: [
         MongooseModule.forFeature([
