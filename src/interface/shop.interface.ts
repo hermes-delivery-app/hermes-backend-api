@@ -14,13 +14,13 @@ export interface RatingDto {
 }
 
 export interface IShop extends Document{
-    readonly name        : string;
-    readonly description : string;
-    readonly adress      : string;
-    readonly deliveryTime: string;
-    readonly deliveryCost: number;
-    readonly schedule    : ScheduleDto;
-    readonly image       : string;
-    readonly rating      : RatingDto;
-    readonly existance   : ExistanceDto;
+    readonly name         : string;
+    readonly description  : string;
+    readonly adress       : string;
+    readonly deliveryTime : string;
+    readonly deliveryCost : number;
+    readonly schedule     : ScheduleDto;
+    readonly image        : string;
+    readonly rating       : RatingDto;
+    readonly existance    : ExistanceDto;
 }

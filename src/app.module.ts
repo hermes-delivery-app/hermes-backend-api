@@ -13,6 +13,7 @@ import { CategoryModule } from './service/category/category.module';
 import { ItemsModule }    from './service/items/items.module';
 import { CartModule }     from './service/cart/cart.module';
 import { CouriersModule } from './service/couriers/couriers.module';
+import { OrderModule }    from './service/order/order.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CouriersModule } from './service/couriers/couriers.module';
     ItemsModule,
     CartModule,
     CouriersModule,
+    OrderModule,
     
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
