@@ -16,7 +16,6 @@ export class CreateItemDto {
 
     @IsOptional()
     @IsString()
-    // @MaxLength(60)
     @ApiProperty()
     readonly image: string;
 
