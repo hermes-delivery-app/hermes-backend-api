@@ -58,6 +58,20 @@ export class ShopService {
     return data;
   }
 
+  async search(query : string): Promise<IShop[]> {
+    const data = await this.shopModel.find({
+      $text:
+      {
+        $search: query,
+      }
+    });
+
+    if (!data || data.length == 0) {
+      throw new NotFoundException('Shops data not found!');
+    }
+    return data;
+  }
+
   async softDelete(id: string): Promise<IShop> {
     const deleted = await this.shopModel.updateOne({ "_id": id }, { "$set": { "existance.isArchived": true } });
 

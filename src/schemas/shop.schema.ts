@@ -74,4 +74,9 @@ export class Shop {
   @Prop({ type: ExistanceSchema })
   existance: ExistanceDto;
 }
-export const ShopSchema = SchemaFactory.createForClass(Shop);
+
+const ShopSchema = SchemaFactory.createForClass(Shop);
+
+ShopSchema.index({ name: 'text' });
+
+export {ShopSchema}

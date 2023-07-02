@@ -75,6 +75,20 @@ export class ShopController {
     }
   }
 
+  @ApiOperation({description: "Поиск магазинов"})
+  @Get('/search/:query')
+  async getSearched(@Res() response, @Param('query') query: string) {
+    try {
+      const data = await this.shopService.search(query);
+
+      return response.status(HttpStatus.OK).json({
+        shops: data
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
+
   @ApiOperation({description: "Изменение магазина по id"})
   @Put('/:id')
   async update(@Res() response, @Param('id') id: string,
