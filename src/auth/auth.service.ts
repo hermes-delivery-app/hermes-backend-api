@@ -14,66 +14,53 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private configService: ConfigService,
-  ) {}
-  
+    private configService: ConfigService
+  ) { }
+
   async signUp(createUserDto: CreateUserDto): Promise<any> {
-    // Check if user exists
-    const userExists = await this.usersService.getOneByPhoneNumber(
-      createUserDto.phoneNumber,
-    );
+    const userExists = await this.usersService.getOneByPhoneNumber(createUserDto.phoneNumber);
     if (userExists) {
       throw new BadRequestException('User already exists');
     }
 
-    // Hash password
-    const hash = await this.hashData(createUserDto.password);
-    const newUser = await this.usersService.create({
-      ...createUserDto,
-      password: hash,
-    });
+    const hashData = await argon2.hash(createUserDto.password);
+    const newUser = await this.usersService.create({ ...createUserDto, password: hashData });
+
     const tokens = await this.getTokens(newUser._id, newUser.phoneNumber);
     await this.updateRefreshToken(newUser._id, tokens.refreshToken);
     return tokens;
   }
 
-	async signIn(data: AuthDto) {
-    // Check if user exists
-    const user = await this.usersService.getOneByPhoneNumber(data.phone);
+  async signIn(authDto: AuthDto) {
+    const { phoneNumber, password } = authDto;
+
+    const user = await this.usersService.getOneByPhoneNumber(phoneNumber);
     if (!user) throw new BadRequestException('User does not exist');
+    if (user.isArchived) throw new BadRequestException('User is deleted');
 
-    if(user.isArchived) throw new BadRequestException('User is deleted');
-
-    const passwordMatches = await argon2.verify(user.password, data.password);
-    if (!passwordMatches)
-      throw new BadRequestException('Password is incorrect');
+    if (!await argon2.verify(user.password, password)) throw new BadRequestException('Password is incorrect');
 
     const tokens = await this.getTokens(user._id, user.phoneNumber);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
     return tokens;
   }
 
-	async logout(userId: string) {
+  async logout(userId: string) {
     return this.usersService.update(userId, { refreshToken: null });
   }
 
-  hashData(data: string) {
-    return argon2.hash(data);
-  }
-
   async updateRefreshToken(userId: string, refreshToken: string) {
-    const hashedRefreshToken = await this.hashData(refreshToken);
-    await this.usersService.update(userId, {
-      refreshToken: hashedRefreshToken,
-    });
+    const hashedRefreshToken = await argon2.hash(refreshToken);
+
+    await this.usersService.update(userId, { refreshToken: hashedRefreshToken });
   }
 
-  async getTokens(userId: string, phone: string) {
+  async getTokens(user_id: string, phoneNumber: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
-          userId,
-          phone,
+          user_id: user_id,
+          phoneNumber: phoneNumber,
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
@@ -82,8 +69,8 @@ export class AuthService {
       ),
       this.jwtService.signAsync(
         {
-          userId,
-          phone,
+          user_id: user_id,
+          phoneNumber: phoneNumber,
         },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
@@ -98,17 +85,14 @@ export class AuthService {
     };
   }
 
-  async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.usersService.getOne(userId);
-    if (!user || !user.refreshToken)
-      throw new ForbiddenException('Access Denied');
-    const refreshTokenMatches = await argon2.verify(
-      user.refreshToken,
-      refreshToken,
-    );
-    if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
-    const tokens = await this.getTokens(user.id, user.phoneNumber);
-    await this.updateRefreshToken(user.id, tokens.refreshToken);
+  async refreshTokens(user_id: string, refreshToken: string) {
+    const existing = await this.usersService.getOne(user_id);
+    if (!existing || !existing.refreshToken) throw new ForbiddenException('Access Denied');
+
+    if (!await argon2.verify(existing.refreshToken, refreshToken)) throw new ForbiddenException('Access Denied');
+
+    const tokens = await this.getTokens(existing.id, existing.phoneNumber);
+    await this.updateRefreshToken(existing.id, tokens.refreshToken);
     return tokens;
   }
 

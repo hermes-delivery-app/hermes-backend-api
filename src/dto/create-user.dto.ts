@@ -18,7 +18,8 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(7)
+    @MinLength(8)
+    @Matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
     @ApiProperty()
     readonly password: string;
 
@@ -26,8 +27,6 @@ export class CreateUserDto {
 
     @ApiProperty({default: false})
     isArchived: boolean;
-
-   // readonly isPhoneNumberConfirmed: boolean;
 
     // @ApiProperty({
     //     type: CreateExistanceDto,

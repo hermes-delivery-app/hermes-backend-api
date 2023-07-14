@@ -19,6 +19,9 @@ export class Category {
    shop_id: string;
 
    @Prop()
+   image: string;
+
+   @Prop()
    isActive: boolean;
 }
 export const CategorySchema = SchemaFactory.createForClass(Category);

@@ -10,16 +10,18 @@ export class CreateCategoryDto {
 
     @IsOptional()
     @IsString()
-    // @IsNotEmpty()
     @ApiProperty()
     readonly parent_id: string;
 
+    @IsOptional()
+    @IsString()
+    @ApiProperty()
+    readonly shop_id: string;
 
     @IsOptional()
     @IsString()
-    // @IsNotEmpty()
     @ApiProperty()
-    readonly shop_id: string;
+    readonly image: string;
 
     @IsBoolean()
     @ApiProperty()
