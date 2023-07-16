@@ -9,12 +9,9 @@ export class AddItemDto {
     @ApiProperty()
      item_id: string;
      
-    @IsNumber()
-    @Min(1)
     @ApiProperty()
      ammount: number;
 
-     @IsNumber()
      @ApiProperty()
      price : number;
 }
@@ -26,8 +23,6 @@ export class RemoveItemDto {
     @ApiProperty()
      item_id: string;
      
-    @IsNumber()
-    @Min(1)
     @ApiProperty()
      ammount: number;
 }

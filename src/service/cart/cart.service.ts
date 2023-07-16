@@ -83,6 +83,11 @@ export class CartService {
   
   async addItem(id: string, addItemDto: AddItemDto): Promise<CartDocument> {
     let { item_id, ammount, price} = addItemDto;
+
+    if(typeof price === 'string') price = Number(price);
+    if(typeof ammount === 'string') ammount = Number(ammount);
+    if(!ammount || ammount<1) ammount =1;
+
     let total = ammount * price;
 
     const item = await this.itemModel.findById(item_id).exec();
@@ -147,6 +152,10 @@ export class CartService {
 
   async removeItem(id: string, removeItemDto: RemoveItemDto): Promise<CartDocument> {
     let { item_id, ammount} = removeItemDto;
+
+    if(typeof ammount === 'string') ammount = Number(ammount);
+    if(!ammount || ammount<1) ammount =1;
+
     const existing = await this.cartModel.findById(id);
 
     if(existing){
